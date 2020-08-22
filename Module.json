@@ -1,0 +1,11 @@
+﻿{
+  "MinimumTcAdminVersion": "2.0.151.0",
+  "SqlProfiles": {
+    "InstallSql": "install.sql",
+    "UpdateSql": "update.sql",
+    "UninstallSql": "uninstall.sql"
+  },
+  "Dll": "TCAdminBanManagement.dll",
+  "MasterOnly": false,
+  "Dependencies": []
+}

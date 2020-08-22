@@ -1,0 +1,11 @@
+﻿@using Kendo.Mvc.UI
+@using TCAdminBanManagement.Models
+@(Html.Kendo().DropDownList().Name("BanType")
+    .BindTo(Enum.GetNames(typeof(EBanType)).ToList().Select(x => new DropDownListItem
+    {
+        Text = x,
+        Value = ((int)Enum.Parse(typeof(EBanType), x, true)).ToString()
+    }))
+    .DataValueField("Value")
+    .DataTextField("Text")
+    )

@@ -1,0 +1,70 @@
+﻿@using System.Web.Optimization
+@using TCAdmin.SDK.Mail
+@using TCAdmin.SDK
+@using TCAdmin.SDK.Objects
+@using TCAdmin.SDK.Web.MVC.Extensions
+@using TCAdminBanManagement.Controllers
+@using TCAdminBanManagement.Models
+@using TCAdminBanManagement.Models.Objects
+@using ObjectBase = TCAdmin.SDK.Objects.ObjectBase
+@{
+    Layout = this.GetTemplateFile("Shared/Simple.cshtml", true);
+    BannedIp banInfo;
+    User user;
+    CompanyInfo companyInfo;
+    try
+    {
+        ObjectBase.GlobalSkipSecurityCheck = true;
+        user = TCAdmin.SDK.Session.GetCurrentUser();
+        var isBanned = BanManagementController.IsBanned();
+        if (!isBanned)
+        {
+            this.Response.Redirect("/");
+            return;
+        }
+        companyInfo = new CompanyInfo(2);
+        banInfo = BannedIp.GetBan(Utility.GetWebClientIp());
+        if (!BanTypeHelper.IsBannedFrom(EBanType.Web))
+        {
+            this.Response.Redirect("/");
+            return;
+        }
+
+        banInfo.ExecuteModuleCommand("AttemptedAccess", new {BanType = EBanType.Web.ToString()});
+    }
+    finally
+    {
+        ObjectBase.GlobalSkipSecurityCheck = false;
+    }
+}
+
+@Styles.Render(this.GetTemplateFileUrl("/Base/Login/Index.css", true))
+<style>
+    .alert {
+      padding: 20px;
+      background-color: #f44336;
+      color: white;
+      margin-bottom: 15px;
+      width: 75%;
+    }
+</style>
+
+<section id="loginSection" style="width: 400px">
+    <div class="frame">
+        <img class="logo" src="@Url.Content(this.GetTemplateLogo(false))" alt="logo"/>
+        <div class="alert">
+            @if (user != null) //If user is logged in, show this.
+            {
+                <text>
+                    Attention @user.FirstName! You have been banned from @companyInfo.CompanyName!<br/><br/> Reason: @(!string.IsNullOrEmpty(banInfo.Reason) ? banInfo.Reason : "None specified") <br/><br/>Banned Until: @(banInfo.ExpiresAt != BannedIp.DefaultDateTime && banInfo.ExpiresAt.Year != 0001 ? banInfo.ExpiresAt.ToString("F") : "Indefinitely")
+                </text>
+            }
+            else //If user is not logged in, show this.
+            {
+                <text>
+                    Attention! You have been banned from @companyInfo.CompanyName!<br/><br/> Reason: @(!string.IsNullOrEmpty(banInfo.Reason) ? banInfo.Reason : "None specified") <br/><br/>Banned Until: @(banInfo.ExpiresAt != BannedIp.DefaultDateTime && banInfo.ExpiresAt.Year != 0001 ? banInfo.ExpiresAt.ToString("F") : "Indefinitely")
+                </text>
+            }
+        </div>
+    </div>
+</section>

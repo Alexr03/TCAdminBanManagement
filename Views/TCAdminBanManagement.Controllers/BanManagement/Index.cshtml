@@ -1,0 +1,117 @@
+@using System.Web.Mvc.Html
+@using Kendo.Mvc.UI
+@using TCAdmin.SDK.Objects
+@using TCAdmin.SDK.Web.MVC.Extensions
+@using TCAdminBanManagement.Models
+@{
+    Layout = this.GetTemplateFile("Shared/Main.cshtml", true);
+}
+
+@section sidebar{
+    @Html.Partial("_DefaultSidebar")
+}
+
+@(Html.Kendo()
+    .Grid<BannedIpViewModel>()
+    .Name("bannedIps")
+    .Columns(columns =>
+    {
+        columns.Bound(x => x.IpAddress).Title("IP Address");
+        columns.Bound(x => x.Reason);
+        columns.Bound(x => x.EBanType).EditorTemplateName("BanType");
+        columns.Bound(x => x.ExpiresAt).Format("{0:dd/MM/yyyy hh:mm}").EditorTemplateName("ExpiresAt").Title("Expiry Date (dd/MM/yyyy hh:mm)");
+        columns.Command(cmd =>
+        {
+            if (PermissionHelper.CurrentUserHasPermission(EBanPermission.AddBan))
+            {
+                cmd.Edit();
+            }
+            if (PermissionHelper.CurrentUserHasPermission(EBanPermission.RemoveBan))
+            {
+                cmd.Destroy();
+            }
+        }).Title("Actions");
+    })
+    .ToolBar(toolbar =>
+    {
+        if (PermissionHelper.CurrentUserHasPermission(EBanPermission.AddBan))
+        {
+            toolbar.Create().Text("Add new ban").HtmlAttributes(new {@class = "k-primary"});
+            toolbar.Custom().Text("Get a users IP Address").IconClass("k-i-zoom").HtmlAttributes(new {id = "getUserIpButton"});
+        }
+    })
+    .Editable(GridEditMode.InLine)
+    .Messages(x => { x.NoRecords("No bans found."); })
+    .DataSource(dataSource =>
+    {
+        var ajax = dataSource.Ajax();
+        ajax.Model(model =>
+        {
+            model.Id(y => y.Id);
+            model.Field(x => x.ExpiresAt).Editable(true).DefaultValue(DateTime.UtcNow.AddDays(1));
+        });
+        ajax.Read("BannedIpsRead", "BanManagement")
+            .Update("BannedIpsSet", "BanManagement")
+            .Create("BannedIpsSet", "BanManagement")
+            .Destroy("BannedIpsDestroy", "BanManagement");
+    }))
+
+@(Html.Kendo().Window()
+    .Name("banFromUserWindow")
+    .Modal(true)
+    .Title("Get User IP Address")
+    .Visible(false)
+    .Width(400)
+    .Content(@<text>
+                 <strong>Choose a user below</strong>
+                 <div>
+                     @(Html.Kendo().DropDownList()
+                         .Name("users")
+                         .Filter(FilterType.Contains)
+                         .BindTo(TCAdmin.SDK.Objects.User.GetMyUsers().Cast<User>().Select(x => new DropDownListItem
+                         {
+                             Value = x.LastLoginIp ?? "",
+                             Text = x.UserName + " | " + x.FullName,
+                             Selected = false
+                         }))
+                         .OptionLabel("Choose User")
+                         .Events(events => events.Change("changeIp"))
+                         .HtmlAttributes(new {style = "width: 100%"})
+                         )
+                 </div>
+                 <div>
+                     <div id="ipAddressBox"></div>
+                     @(Html.Kendo().Button().Name("copyIpButton").Content("Copy IP").HtmlAttributes(new {style = "display: none"}).Icon("copy").Events(x => x.Click("copyIpToClipboard")))
+                 </div>
+              </text>)
+    )
+
+<script>
+    let popupNotification = $("<div></div>").kendoNotification().data("kendoNotification");
+    let ipValue;
+
+    $("#getUserIpButton").click(function (e) {
+        e.preventDefault();
+        $("#users").data("kendoDropDownList").select(-1);
+        $("#banFromUserWindow").data("kendoWindow").open().center();
+    });
+    
+    function changeIp(e){
+        ipValue = this.value();
+        if(ipValue !== ""){
+            $("#copyIpButton")[0].style.display = 'block'
+        }
+        else{
+            $("#copyIpButton")[0].style.display = 'none'
+        }
+        document.getElementById("ipAddressBox").innerHTML = "IP Address: <strong>" + (ipValue !== "" ? ipValue : "Has not yet logged in.") + "</strong>"
+    }
+    
+    function copyIpToClipboard(e){
+        navigator.clipboard.writeText(ipValue).then(function() {
+            popupNotification.show("Copied IP to clipboard", "success");
+        }, function() {
+            popupNotification.show("Error copying IP to clipboard", "error");
+        });
+    }
+</script>

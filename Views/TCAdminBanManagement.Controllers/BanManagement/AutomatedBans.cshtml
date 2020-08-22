@@ -1,0 +1,54 @@
+﻿@using System.Web.Mvc.Ajax
+@using System.Web.Mvc.Html
+@using Kendo.Mvc.UI
+@using TCAdmin.SDK.Web.MVC.Extensions
+@model TCAdminBanManagement.Models.AutomatedBansSettingsModel
+
+@{
+    Layout = this.GetTemplateFile("Shared/Main.cshtml", true);
+}
+
+@section sidebar{
+    @Html.Partial("_DefaultSidebar")
+}
+
+@using (Ajax.BeginForm(new AjaxOptions {OnSuccess = "TCAdmin.Ajax.ShowBasicDialog('Success', 'Successfully saved Automated Ban Settings'); document.body.style.cursor = 'default';", OnFailure = "TCAdmin.Ajax.HandleAjaxFailure"}))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="primary-toolbar">
+        @(Html.Kendo().ToolBar()
+            .Name("ToolBar")
+            .Items(items =>
+            {
+                items.Add().Template(this.GetToolbarButton(Resources.Global.Save, "save"));
+                items.Add().Type(CommandType.Button).Icon("cancel").Text(Resources.Global.Cancel).Click("TCAdmin.Ajax.CancelClicked");
+            }))
+    </div>
+    <div class="primary-content">
+        <fieldset class="fieldset-form auto-focus">
+            @Html.ValidationSummary(true)
+            <ul>
+                <li>
+                    <dl>
+                        <dt>@Html.LabelFor(m => m.Enabled)</dt>
+                        <dd>@Html.Kendo().SwitchFor(m => m.Enabled)@Html.ValidationMessageFor(m => m.Enabled)@Html.TooltipFor(m => m.Enabled)</dd>
+                        <dd>
+                            Allow @Html.Kendo().NumericTextBoxFor(m => m.MaxAttempts).Format("#,## login attempts")@Html.ValidationMessageFor(m => m.MaxAttempts)@Html.TooltipFor(m => m.MaxAttempts)
+                            within @Html.Kendo().NumericTextBoxFor(m => m.MinutesInbetween).Format("#,## minutes") of each attempt @Html.ValidationMessageFor(m => m.MinutesInbetween)@Html.TooltipFor(m => m.MinutesInbetween)
+                            and then ban for @Html.Kendo().NumericTextBoxFor(m => m.BanForMinutes).Format("#,## minutes")@Html.ValidationMessageFor(m => m.BanForMinutes)@Html.TooltipFor(m => m.BanForMinutes)
+                        </dd>
+                        <dt>@Html.LabelFor(m => m.BanReason)</dt>
+                        <dd>@Html.TextAreaFor(m => m.BanReason, new {@class = "k-textbox", style = "width: 800px;height:150px;"})@Html.ValidationMessageFor(m => m.BanReason)@Html.TooltipFor(m => m.BanReason)</dd>
+                    </dl>
+                </li>
+            </ul>
+        </fieldset>
+    </div>
+}
+
+<style>
+    .k-switch{
+        margin: 5px;
+    }
+</style>
