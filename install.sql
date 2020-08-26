@@ -11,7 +11,6 @@
         unique (ipAddress)
 );
 
-
 # ----------------------------------------------------------------------------------------------------------------------
 
 INSERT INTO tc_modules (module_id, display_name, version, enabled, config_page, component_directory,
@@ -40,7 +39,7 @@ VALUES (2, '918250d5-e6d5-4398-9434-44b0a17cd231', null, null, null, '/BanManage
         'BanManagement', 'Banned', 'Banned', 'MenuIcons/Base/ServerComponents24x24.png',
         'MenuIcons/Base/ServerComponents24x24.png', 0, 1000, null, null, null, null, null);
 
-INSERT INTO tcadmin.tc_site_map (page_id, module_id, parent_page_id, parent_page_module_id, category_id, url, mvc_url,
+INSERT INTO tc_site_map (page_id, module_id, parent_page_id, parent_page_module_id, category_id, url, mvc_url,
                                  controller, action, display_name, page_small_icon, panelbar_icon, show_in_sidebar,
                                  view_order, required_permissions, menu_required_permissions, page_manager,
                                  page_search_provider, cache_name)
