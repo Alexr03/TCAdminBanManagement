@@ -25,7 +25,7 @@ INSERT INTO tc_site_map (page_id, module_id, parent_page_id, parent_page_module_
                          page_search_provider, cache_name)
 VALUES (1, '918250d5-e6d5-4398-9434-44b0a17cd231', 40, '07405876-e8c2-4b24-a774-4ef57f596384', 1, '/BanManagement',
         '/BanManagement', 'BanManagement', 'Index', 'Manage Bans', 'MenuIcons/Base/ServerComponents24x24.png',
-        'MenuIcons/Base/ServerComponents24x24.png', 1, 1000, '({918250d5-e6d5-4398-9434-44b0a17cd231,1,16})
+        'MenuIcons/Base/ServerComponents16x16.png', 1, 1000, '({918250d5-e6d5-4398-9434-44b0a17cd231,1,16})
 ({07405876-e8c2-4b24-a774-4ef57f596384,0,0})
 ', '({918250d5-e6d5-4398-9434-44b0a17cd231,1,16})
 ({07405876-e8c2-4b24-a774-4ef57f596384,0,0})
