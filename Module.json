@@ -7,5 +7,7 @@
   },
   "Dll": "TCAdminBanManagement.dll",
   "MasterOnly": false,
-  "Dependencies": []
+  "Dependencies": [
+    "IPAddressRange.dll"
+  ]
 }

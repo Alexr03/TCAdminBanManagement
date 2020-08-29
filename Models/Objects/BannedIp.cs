@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using NetTools;
 using TCAdmin.Interfaces.Database;
 using TCAdmin.SDK.Objects;
 
@@ -66,20 +68,32 @@ namespace TCAdminBanManagement.Models.Objects
 
         public static bool IsIpBanned(string ipAddress)
         {
-            var whereList = new WhereList
+            var bannedIps = GetBannedIps();
+            foreach (var bannedIp in bannedIps)
             {
-                {"ipAddress", ipAddress}
-            };
-            return new BannedIp().GetObjectList(whereList).Count >= 1;
+                if (!IPAddressRange.TryParse(bannedIp.IpAddress, out var ipRange)) continue;
+                if (ipRange.Contains(IPAddress.Parse(ipAddress)))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static BannedIp GetBan(string ipAddress)
         {
-            var whereList = new WhereList
+            var bannedIps = GetBannedIps();
+            foreach (var bannedIp in bannedIps)
             {
-                {"ipAddress", ipAddress}
-            };
-            return (BannedIp) new BannedIp().GetObjectList(whereList)[0];
+                if (!IPAddressRange.TryParse(bannedIp.IpAddress, out var ipRange)) continue;
+                if (ipRange.Contains(IPAddress.Parse(ipAddress)))
+                {
+                    return bannedIp;
+                }
+            }
+
+            return null;
         }
 
         public static void UnbanExpired()

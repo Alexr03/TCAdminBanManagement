@@ -32,6 +32,10 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="IPAddressRange, Version=4.1.0.0, Culture=neutral, PublicKeyToken=578e3c3d17e7c751">
+          <HintPath>..\packages\IPAddressRange.4.1.0\lib\net45\IPAddressRange.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="Kendo.Mvc, Version=2020.2.617.545, Culture=neutral, PublicKeyToken=121fae78165ba3d4">
           <HintPath>..\packages\TCAdmin.2.0.151.4\lib\netstandard2.0\Kendo.Mvc.dll</HintPath>
           <Private>True</Private>

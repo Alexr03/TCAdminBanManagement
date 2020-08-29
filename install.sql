@@ -1,14 +1,13 @@
-﻿create table tcmodule_banned_ips
+﻿DROP TABLE IF EXISTS `tcmodule_banned_ips`;
+create table tcmodule_banned_ips
 (
-    id        int         not null
+    id        int      not null
         primary key,
-    ipAddress varchar(16) not null,
-    reason    text        null,
-    banType   int         not null,
-    expiresAt datetime    null,
-    app_data  text        null,
-    constraint tcmodule_banned_ips_ipAddress_uindex
-        unique (ipAddress)
+    ipAddress text     not null,
+    reason    text     null,
+    banType   int      not null,
+    expiresAt datetime null,
+    app_data  text     null
 );
 
 # ----------------------------------------------------------------------------------------------------------------------
