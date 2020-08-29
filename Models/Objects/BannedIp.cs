@@ -49,7 +49,7 @@ namespace TCAdminBanManagement.Models.Objects
             set => this.SetValue("reason", value);
         }
         
-        public EBanType EBanType
+        public EBanType BanType
         {
             get => (EBanType)this.GetIntegerValue("banType");
             set => this.SetValue("banType", (int)value);
@@ -115,7 +115,7 @@ namespace TCAdminBanManagement.Models.Objects
                 IpAddress = model.IpAddress,
                 Reason = model.Reason ?? string.Empty,
                 ExpiresAt = model.ExpiresAt.ToUniversalTime(),
-                EBanType = EBanType.All
+                BanType = model.BanType
             };
         }
 
@@ -125,7 +125,7 @@ namespace TCAdminBanManagement.Models.Objects
             IpAddress = model.IpAddress;
             Reason = model.Reason ?? "";
             ExpiresAt = model.ExpiresAt.ToUniversalTime();
-            EBanType = model.EBanType;
+            BanType = model.BanType;
         }
     }
 }

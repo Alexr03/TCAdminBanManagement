@@ -46,7 +46,7 @@ namespace TCAdminBanManagement.Events
                                 {
                                     IpAddress = banInfo.IpAddress,
                                     Reason = autoBanSettings.BanReason,
-                                    EBanType = EBanType.All,
+                                    BanType = EBanType.All,
                                     ExpiresAt = autoBanSettings.BanForMinutes == 0
                                         ? DateTime.MinValue.ToUniversalTime()
                                         : DateTime.UtcNow.AddMinutes(autoBanSettings.BanForMinutes)

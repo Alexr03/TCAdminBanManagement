@@ -15,7 +15,7 @@ namespace TCAdminBanManagement.Models
         public static bool IsBannedFrom(EBanType eBanType)
         {
             var banInfo = BannedIp.GetBan(Utility.GetWebClientIp());
-            return IsBannedFrom(banInfo.EBanType, eBanType);
+            return IsBannedFrom(banInfo.BanType, eBanType);
         }
         
         public static bool IsBannedFrom(EBanType hasEBan, EBanType bannedFrom)

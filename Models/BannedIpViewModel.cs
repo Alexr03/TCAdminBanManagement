@@ -15,7 +15,7 @@ namespace TCAdminBanManagement.Models
         
         public string Reason { get; set; }
         
-        public EBanType EBanType { get; set; }
+        public EBanType BanType { get; set; }
 
         public static BannedIpViewModel Map(BannedIp bannedIp)
         {
@@ -25,7 +25,7 @@ namespace TCAdminBanManagement.Models
                 IpAddress = bannedIp.IpAddress,
                 ExpiresAt = bannedIp.ExpiresAt.ToUniversalTime(),
                 Reason = bannedIp.Reason,
-                EBanType = bannedIp.EBanType
+                BanType = bannedIp.BanType
             };
         }
     }

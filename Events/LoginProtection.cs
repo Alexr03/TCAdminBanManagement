@@ -34,7 +34,7 @@ namespace TCAdminBanManagement.Events
             var bannedIp = BannedIp.GetBan(ipAddress.ToString());
             if (args.Command == "FtpLogin")
             {
-                if (BanTypeHelper.IsBannedFrom(bannedIp.EBanType, EBanType.Ftp))
+                if (BanTypeHelper.IsBannedFrom(bannedIp.BanType, EBanType.Ftp))
                 {
                     bannedIp.ExecuteModuleCommand("AttemptedAccess", new {BanType = EBanType.Ftp});
                     throw new Exception($"IP {ipAddress} is banned for: {bannedIp.Reason} || Expiry (UTC): {bannedIp.ExpiresAt:F}");
@@ -42,7 +42,7 @@ namespace TCAdminBanManagement.Events
             }
             else if (args.Command == "PanelLogin")
             {
-                if (BanTypeHelper.IsBannedFrom(bannedIp.EBanType, EBanType.Web))
+                if (BanTypeHelper.IsBannedFrom(bannedIp.BanType, EBanType.Web))
                 {
                     bannedIp.ExecuteModuleCommand("AttemptedAccess", new {BanType = EBanType.Web});
                     throw new Exception($"IP {ipAddress} is banned for: {bannedIp.Reason} || Expiry (UTC): {bannedIp.ExpiresAt:F}");

@@ -1,5 +1,4 @@
-﻿DROP TABLE IF EXISTS `tcmodule_banned_ips`;
-create table tcmodule_banned_ips
+﻿create table tcmodule_banned_ips
 (
     id        int      not null
         primary key,

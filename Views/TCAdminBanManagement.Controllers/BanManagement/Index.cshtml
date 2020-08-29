@@ -18,7 +18,7 @@
     {
         columns.Bound(x => x.IpAddress).Title("IP Address");
         columns.Bound(x => x.Reason);
-        columns.Bound(x => x.EBanType).EditorTemplateName("BanType");
+        columns.Bound(x => x.BanType).EditorTemplateName("BanType");
         columns.Bound(x => x.ExpiresAt).Format("{0:dd/MM/yyyy hh:mm}").EditorTemplateName("ExpiresAt").Title("Expiry Date (dd/MM/yyyy hh:mm)");
         columns.Command(cmd =>
         {
