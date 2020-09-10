@@ -194,6 +194,7 @@
       <Content Include="install.sql" />
       <Content Include="Module.json" />
       <Content Include="uninstall.sql" />
+      <Content Include="Views\Base\Login\Index.Plugin.BanManagement.cshtml" />
       <Content Include="Views\Shared\EditorTemplates\BanType.cshtml" />
       <Content Include="Views\Shared\EditorTemplates\ExpiresAt.cshtml" />
       <Content Include="Views\Shared\Main.Plugin.BanManagement.cshtml" />

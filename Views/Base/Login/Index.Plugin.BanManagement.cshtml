@@ -1,0 +1,12 @@
+﻿@using TCAdminBanManagement.Controllers
+@using TCAdminBanManagement.Models
+@{
+    var isBanned = BanManagementController.IsBanned();
+    if (isBanned)
+    {
+        if (BanTypeHelper.IsBannedFrom(EBanType.Web))
+        {
+            this.Response.Redirect("/BanManagement/Banned", true);
+        }
+    }
+}
