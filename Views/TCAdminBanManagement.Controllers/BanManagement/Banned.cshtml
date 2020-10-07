@@ -56,7 +56,7 @@
             @if (user != null) //If user is logged in, show this.
             {
                 <text>
-                    Attention @user.FirstName! You have been banned from @companyInfo.CompanyName!<br/><br/> Reason: @(!string.IsNullOrEmpty(banInfo.Reason) ? banInfo.Reason : "None specified") <br/><br/>Banned Until: @(banInfo.ExpiresAt != BannedIp.DefaultDateTime && banInfo.ExpiresAt.Year != 0001 ? banInfo.ExpiresAt.ToString("F") : "Indefinitely")
+                    Attention @user.FirstName! You have been banned from @companyInfo.CompanyName!<br/><br/> Reason: @(!string.IsNullOrEmpty(banInfo.Reason) ? banInfo.Reason : "None specified") <br/><br/>Banned Until: @(banInfo.ExpiresAt != BannedIp.DefaultDateTime && banInfo.ExpiresAt.Year != 0001 ? TCAdmin.SDK.Misc.Dates.UniversalTimeToCurrentTimeZone(banInfo.ExpiresAt).ToString("F") : "Indefinitely")
                 </text>
             }
             else //If user is not logged in, show this.
